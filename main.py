@@ -2,6 +2,15 @@ import pygame
 from pygame.math import Vector2
 import random
 
+class SNAKE:
+    def __init__(self):
+        self.body = [Vector2(10, 10), Vector2(11,10), Vector2(12,10)]
+    def draw_snake(self):
+        for blocks in self.body:
+            block = pygame.Rect(blocks.x * cell_size, blocks.y * cell_size, cell_size, cell_size)
+            pygame.draw.rect(screen, (255,9,9), block)
+            
+
 class FRUIT:
     def __init__(self):
         self.x = random.randint(0, cell_nums-1)
@@ -22,6 +31,7 @@ cell_nums = 20
 cell_size = 35
 
 fruit = FRUIT()
+snake = SNAKE()
 screen = pygame.display.set_mode((cell_nums * cell_size, cell_nums * cell_size))
 clock = pygame.time.Clock()
 running = True
@@ -39,6 +49,7 @@ while running:
     
     screen.fill((200, 100, 75))
     fruit.draw_fruit()
+    snake.draw_snake()
     pygame.display.update()
 
     clock.tick(60)  # limits FPS to 60
