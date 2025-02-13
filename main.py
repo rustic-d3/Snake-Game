@@ -1,10 +1,11 @@
 import pygame
 from pygame.math import Vector2
+import random
 
 class FRUIT:
     def __init__(self):
-        self.x = 1
-        self.y = 1
+        self.x = random.randint(0, cell_nums-1)
+        self.y = random.randint(0, cell_nums-1)
         self.pos = Vector2(self.x, self.y)
 
     def draw_fruit(self):
