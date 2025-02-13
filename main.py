@@ -1,13 +1,33 @@
 import pygame
+from pygame.math import Vector2
+
+class FRUIT:
+    def __init__(self):
+        self.x = 1
+        self.y = 1
+        self.pos = Vector2(self.x, self.y)
+
+    def draw_fruit(self):
+        fruit_rect = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
+        pygame.draw.rect(screen, (150,150,78), fruit_rect)
+
+
+
 
 pygame.init()
 
 # pygame setup
-screen = pygame.display.set_mode((1280, 720))
+cell_nums = 20
+cell_size = 35
+
+fruit = FRUIT()
+screen = pygame.display.set_mode((cell_nums * cell_size, cell_nums * cell_size))
 clock = pygame.time.Clock()
 running = True
-x = 40
-y = 40
+surface = pygame.Surface((200,200))
+
+
+
 
 while running:
     # poll for events
@@ -15,26 +35,9 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_DOWN:
-                y+=10
     
-            if event.key == pygame.K_UP:
-                y-=10
-            if event.key == pygame.K_LEFT:
-                x-=10
-            if event.key == pygame.K_RIGHT:
-                x+=10
-
-    # fill the screen with a color to wipe away anything from last frame
-    screen.fill("purple")
-    pygame.draw.rect(screen,pygame.Color(255, 12, 133), pygame.Rect(x, y, 100, 100))
-        
-
-    # RENDER YOUR GAME HERE
-
-    # flip() the display to put your work on screen
+    screen.fill((200, 100, 75))
+    fruit.draw_fruit()
     pygame.display.update()
 
     clock.tick(60)  # limits FPS to 60
