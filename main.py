@@ -5,11 +5,16 @@ import random
 class SNAKE:
     def __init__(self):
         self.body = [Vector2(10, 10), Vector2(11,10), Vector2(12,10)]
+        self.direction = Vector2(1, 0)
     def draw_snake(self):
         for blocks in self.body:
             block = pygame.Rect(blocks.x * cell_size, blocks.y * cell_size, cell_size, cell_size)
             pygame.draw.rect(screen, (255,9,9), block)
             
+    def move_snake(self):
+        body_copy = self.body[:-1]
+        body_copy.insert(0, body_copy[0] + self.direction)
+        self.body = body_copy
 
 class FRUIT:
     def __init__(self):
@@ -36,6 +41,8 @@ screen = pygame.display.set_mode((cell_nums * cell_size, cell_nums * cell_size))
 clock = pygame.time.Clock()
 running = True
 surface = pygame.Surface((200,200))
+MOVE_TRIGGER = pygame.USEREVENT
+pygame.time.set_timer(MOVE_TRIGGER, 100)
 
 
 
@@ -46,6 +53,9 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+        if event.type == MOVE_TRIGGER:
+            snake.move_snake()
     
     screen.fill((200, 100, 75))
     fruit.draw_fruit()
