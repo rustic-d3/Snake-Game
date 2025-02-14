@@ -15,7 +15,7 @@ class SNAKE:
         body_copy = self.body[:-1]
         body_copy.insert(0, body_copy[0] + self.direction)
         self.body = body_copy
-
+    
 class FRUIT:
     def __init__(self):
         self.x = random.randint(0, cell_nums-1)
@@ -56,6 +56,15 @@ while running:
 
         if event.type == MOVE_TRIGGER:
             snake.move_snake()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                snake.direction = Vector2(0, -1)
+            if event.key == pygame.K_DOWN:
+                snake.direction = Vector2(0, 1)
+            if event.key == pygame.K_RIGHT:
+                snake.direction = Vector2(1, 0)
+            if event.key == pygame.K_LEFT:
+                snake.direction = Vector2(-1, 0)
     
     screen.fill((200, 100, 75))
     fruit.draw_fruit()
