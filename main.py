@@ -46,8 +46,14 @@ class MAIN:
             self.new_block = True
     def check_for_collision(self):
         if self.snake.body[0] in self.snake.body[1:] and self.new_block == False:
-            print("Collision has been detected") 
-
+            self.game_over()
+        if not 0 <= self.snake.body[0].x < cell_nums:
+            self.game_over()
+        if not 0 <= self.snake.body[0].y < cell_nums:
+            self.game_over()
+    def game_over(self):
+        print("Collision has been detected") 
+        pygame.quit()
         
 
 
