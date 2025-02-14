@@ -15,6 +15,7 @@ class SNAKE:
         body_copy = self.body[:-1]
         body_copy.insert(0, body_copy[0] + self.direction)
         self.body = body_copy
+
     
 class FRUIT:
     def __init__(self):
@@ -25,6 +26,22 @@ class FRUIT:
     def draw_fruit(self):
         fruit_rect = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
         pygame.draw.rect(screen, (150,150,78), fruit_rect)
+            
+class MAIN:
+    def __init__(self):
+        self.snake = SNAKE()
+        self.fruit = FRUIT()
+    def update(self):
+        self.fruit.draw_fruit()
+        self.snake.draw_snake()
+
+    def check_for_food(self):
+        if self.snake.body[0] == self.fruit.pos:
+            self.fruit.x = random.randint(0, cell_nums-1)
+            self.fruit.y = random.randint(0, cell_nums-1)
+            self.snake.body.insert(0, self.fruit.pos)
+            self.fruit.pos = Vector2(self.fruit.x, self.fruit.y)
+            
 
 
 
@@ -35,8 +52,7 @@ pygame.init()
 cell_nums = 20
 cell_size = 35
 
-fruit = FRUIT()
-snake = SNAKE()
+main = MAIN()
 screen = pygame.display.set_mode((cell_nums * cell_size, cell_nums * cell_size))
 clock = pygame.time.Clock()
 running = True
@@ -55,20 +71,22 @@ while running:
             running = False
 
         if event.type == MOVE_TRIGGER:
-            snake.move_snake()
+            main.snake.move_snake()
+            main.check_for_food()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                snake.direction = Vector2(0, -1)
+                main.snake.direction = Vector2(0, -1)
             if event.key == pygame.K_DOWN:
-                snake.direction = Vector2(0, 1)
+                main.snake.direction = Vector2(0, 1)
             if event.key == pygame.K_RIGHT:
-                snake.direction = Vector2(1, 0)
+                main.snake.direction = Vector2(1, 0)
             if event.key == pygame.K_LEFT:
-                snake.direction = Vector2(-1, 0)
+                main.snake.direction = Vector2(-1, 0)
     
     screen.fill((200, 100, 75))
-    fruit.draw_fruit()
-    snake.draw_snake()
+    
+    main.update()
+
     pygame.display.update()
 
     clock.tick(60)  # limits FPS to 60
